@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wells Market Co. · Obstetrics &amp; Perinatal Care Product Marketplace Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --canvas:     #F5F0E8;
+  --canvas-mid: #EDE6D8;
+  --sage:       #4A6741;
+  --sage-mid:   #6B8F62;
+  --sage-light: #D4E4CF;
+  --sage-pale:  #EEF5EC;
+  --terra:      #C4622D;
+  --terra-soft: #F0D4C2;
+  --ink:        #1E2418;
+  --ink-soft:   #3A4235;
+  --muted:      #7A8270;
+  --line:       #D6CFBE;
+  --white:      #FFFFFF;
+  --success:    #4A6741;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--canvas);color:var(--ink);font-size:16px;line-height:1.6;min-height:100vh;padding-top:66px}
+
+#progress-rail{position:fixed;top:0;left:0;right:0;height:3px;background:var(--canvas-mid);z-index:200}
+#progress-bar{height:100%;background:linear-gradient(90deg,var(--sage),var(--sage-mid));width:0%;transition:width 0.4s ease}
+
+nav{position:fixed;top:0;left:0;right:0;background:rgba(245,240,232,0.97);backdrop-filter:blur(16px);z-index:200;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid var(--line)}
+.nav-brand{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink);letter-spacing:0.01em}
+.nav-brand em{font-style:italic;color:var(--sage-mid)}
+.nav-meta{font-size:12.5px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;font-weight:500}
+.nav-save{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;color:var(--white);background:var(--sage);border:none;padding:8px 20px;border-radius:100px;cursor:pointer;transition:all 0.2s}
+.nav-save:hover{background:var(--ink);transform:translateY(-1px)}
+
+.hero{background:var(--ink);padding:64px 48px 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;right:0;width:50%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(74,103,65,0.3) 0%,transparent 60%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;background:var(--canvas);clip-path:ellipse(55% 100% at 50% 100%);pointer-events:none}
+.hero-inner{max-width:1200px;width:100%;position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:32px}
+
+  .hero-icon-wrap {
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+  }
+  .hero-icon-wrap svg {
+    filter: drop-shadow(0 4px 24px rgba(74,103,65,0.25));
+  }
+
+  
+  .hero-text{flex:1;min-width:0}
+  .hero-figure{flex-shrink:0;display:flex;align-items:center;justify-content:center;width:220px}
+  .check-label:has(input[name="contact-method"]:checked){background:var(--sage-pale);border-color:var(--sage-mid)!important}
+  .check-label input[name="contact-method"]:checked{background:var(--sage);border-color:var(--sage)}
+  .check-label input[name="contact-method"]:checked::after{content:'';position:absolute;left:4px;top:4px;width:6px;height:6px;border-radius:50%;background:white}
+  @media(max-width:900px){.hero-inner{flex-direction:column}.hero-figure{display:none}}
+
+  .hero-kicker{font-family:'Playfair Display',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--sage-mid);font-weight:400;font-style:italic;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.hero-kicker::before{content:'';display:inline-block;width:24px;height:1px;background:var(--sage-mid)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,4.5vw,52px);font-weight:500;color:var(--white);line-height:1.1;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--sage-light)}
+.hero-sub{color:rgba(255,255,255,0.58);font-size:16px;line-height:1.75;max-width:580px;margin-bottom:36px}
+.hero-chips{display:flex;gap:10px;flex-wrap:wrap}
+.hero-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-size:13.5px;padding:7px 14px;border-radius:100px;font-weight:500}
+.hero-chip svg{opacity:0.5}
+
+.section-tabs{background:var(--canvas);display:flex;padding:0 40px;overflow-x:auto;scrollbar-width:none;position:sticky;top:66px;z-index:150;border-bottom:1px solid var(--line)}
+.section-tabs::-webkit-scrollbar{display:none}
+.tab-btn{padding:15px 20px;font-size:13px;font-weight:400;color:var(--muted);border:none;background:none;cursor:pointer;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:0.03em;transition:color 0.2s;position:relative}
+.tab-btn::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sage);transform:scaleX(0);transition:transform 0.2s}
+.tab-btn.active{color:var(--sage)}
+.tab-btn.active::after{transform:scaleX(1)}
+.tab-btn:hover{color:var(--ink)}
+
+.main-wrap{display:grid;grid-template-columns:1fr 240px;max-width:1400px;margin:0 auto;align-items:start}
+.form-area{padding:48px 32px 80px 40px}
+
+.section-block{margin-bottom:60px;animation:lift 0.45s ease both}
+@keyframes lift{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.section-label{display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.section-letter{width:38px;height:38px;background:var(--sage);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:17px;font-weight:700;flex-shrink:0}
+.section-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:500;color:var(--ink);letter-spacing:0.01em}
+.section-subtitle{font-size:13px;color:var(--muted);margin-top:2px;font-weight:500;letter-spacing:0.04em}
+
+.question{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:28px 36px;margin-bottom:16px;transition:border-color 0.2s,box-shadow 0.2s;overflow:visible}
+.question:focus-within{border-color:var(--sage-mid);box-shadow:0 0 0 3px rgba(74,103,65,0.08)}
+.q-header{display:flex;gap:14px;margin-bottom:14px}
+.q-num{font-size:12px;font-weight:600;color:var(--terra);letter-spacing:0.06em;padding-top:2px;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.q-text{font-size:16.5px;font-weight:600;color:var(--ink);line-height:1.45}
+.q-note{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:16px;padding-left:36px;line-height:1.5}
+
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-left:36px}
+.options-grid.single-col{grid-template-columns:1fr}
+.check-label{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:9px;cursor:pointer;border:1.5px solid transparent;transition:all 0.15s;background:var(--canvas)}
+.check-label:hover{background:var(--sage-pale);border-color:var(--sage-light)}
+.check-label.checked{background:var(--sage-pale);border-color:var(--sage-mid)}
+.check-label input[type=checkbox],.check-label input[type=radio]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--line);border-radius:5px;flex-shrink:0;margin-top:1px;cursor:pointer;transition:all 0.15s;position:relative;background:white}
+.check-label input[type=radio]{border-radius:50%}
+.check-label input[type=checkbox]:checked,.check-label input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+.check-label input[type=checkbox]:checked::after{content:'';position:absolute;left:5px;top:2px;width:6px;height:10px;border:2px solid white;border-top:none;border-left:none;transform:rotate(42deg)}
+.check-label input[type=radio]:checked::after{content:'';position:absolute;left:4px;top:4px;width:8px;height:8px;border-radius:50%;background:white}
+.check-text{font-size:15px;color:var(--ink-soft);line-height:1.45}
+.check-text em{font-style:normal;color:var(--muted);font-size:13px;display:block;margin-top:2px}
+
+.other-row{padding-left:36px;margin-top:4px}
+.other-input-wrap{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;border:1.5px solid var(--line);background:white;transition:border-color 0.2s}
+.other-input-wrap:focus-within{border-color:var(--sage-mid)}
+.other-input-wrap input[type=checkbox]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--line);border-radius:5px;flex-shrink:0;cursor:pointer;transition:all 0.15s;position:relative;background:white}
+.other-input-wrap input[type=checkbox]:checked{background:var(--sage);border-color:var(--sage)}
+.other-input-wrap input[type=checkbox]:checked::after{content:'';position:absolute;left:5px;top:2px;width:6px;height:10px;border:2px solid white;border-top:none;border-left:none;transform:rotate(42deg)}
+.other-label{font-size:15px;color:var(--muted);flex-shrink:0}
+.other-text-input{flex:1;border:none;outline:none;font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--ink);background:transparent}
+.other-text-input::placeholder{color:var(--line)}
+
+.write-in-block{margin-top:14px;padding-left:36px}
+.write-in-label{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:7px;display:block}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:11px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:var(--ink);resize:vertical;min-height:80px;background:var(--canvas);transition:border-color 0.2s,box-shadow 0.2s;line-height:1.65}
+textarea:focus{outline:none;border-color:var(--sage-mid);box-shadow:0 0 0 3px rgba(74,103,65,0.08);background:white}
+textarea.tall{min-height:120px}
+textarea.xtall{min-height:175px}
+.text-input{width:100%;border:1.5px solid var(--line);border-radius:9px;padding:10px 14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:var(--ink);background:var(--canvas);transition:border-color 0.2s}
+.text-input:focus{outline:none;border-color:var(--sage-mid);box-shadow:0 0 0 3px rgba(74,103,65,0.08);background:white}
+
+.product-grid-wrap{padding-left:36px;overflow-x:auto}
+.product-grid{width:100%;border-collapse:collapse;min-width:600px}
+.product-grid th{background:var(--sage);color:white;font-size:12.5px;font-weight:600;letter-spacing:0.04em;padding:10px 13px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+.product-grid th:first-child{border-radius:9px 0 0 0;width:32px;text-align:center}
+.product-grid th:last-child{border-radius:0 9px 0 0}
+.product-grid td{border-bottom:1px solid var(--line);padding:6px 8px}
+.product-grid tr:nth-child(even) td{background:var(--sage-pale)}
+.product-grid .row-num{font-size:11px;color:var(--muted);text-align:center;font-weight:600}
+.product-grid input[type=text]{width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);padding:4px 6px;border-radius:4px;transition:background 0.15s}
+.product-grid input[type=text]:focus{outline:none;background:white;box-shadow:0 0 0 2px rgba(74,103,65,0.3)}
+.product-grid input[type=text]::placeholder{color:var(--line);font-style:italic}
+
+.symptom-grid-wrap{padding-left:0;overflow-x:auto;overflow-y:visible;margin-top:8px;width:100%}
+.symptom-grid{width:100%;border-collapse:collapse;min-width:860px;table-layout:fixed}
+.symptom-grid th{background:var(--sage);color:white;font-size:11.5px;font-weight:600;padding:9px 10px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+.symptom-grid th:first-child{border-radius:9px 0 0 0;width:32%}
+.symptom-grid th:nth-child(2){width:22%}.symptom-grid th:nth-child(3){width:18%}.symptom-grid th:last-child{border-radius:0 9px 0 0;width:28%}
+.symptom-grid td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:middle;height:auto;overflow:visible;white-space:nowrap}
+.symptom-grid tr:nth-child(even) td{background:var(--sage-pale)}
+.symptom-name{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.hml-group{display:flex;gap:6px;flex-wrap:nowrap}
+.hml-label{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+.hml-label input[type=radio]{appearance:none;-webkit-appearance:none;width:13px;height:13px;border:1.5px solid var(--line);border-radius:50%;cursor:pointer;transition:all 0.15s;position:relative;background:white}
+.hml-label input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+.hml-label input[type=radio]:checked::after{content:'';position:absolute;left:2px;top:2px;width:7px;height:7px;border-radius:50%;background:white}
+.ynp-group{display:flex;gap:6px;flex-wrap:nowrap}
+.ynp-label{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+.ynp-label input[type=radio]{appearance:none;-webkit-appearance:none;width:13px;height:13px;border:1.5px solid var(--line);border-radius:4px;cursor:pointer;transition:all 0.15s;position:relative;background:white}
+.ynp-label input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+.ynp-label input[type=radio]:checked::after{content:'';position:absolute;left:3px;top:1px;width:4px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(42deg)}
+
+.likert-table{padding-left:36px;overflow-x:auto}
+.likert-grid{width:100%;border-collapse:collapse;min-width:560px}
+.likert-grid th{background:var(--sage);color:white;font-size:12px;font-weight:600;padding:10px 8px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;width:58px}
+.likert-grid th:first-child{text-align:left;width:auto;border-radius:9px 0 0 0;padding-left:14px}
+.likert-grid th:last-child{border-radius:0 9px 0 0}
+.likert-grid td{border-bottom:1px solid var(--line);padding:11px 8px;text-align:center;vertical-align:middle}
+.likert-grid td:first-child{text-align:left;padding-left:14px}
+.likert-grid tr:nth-child(even) td{background:var(--sage-pale)}
+.stmt-text{font-size:14.5px;color:var(--ink-soft)}
+.likert-grid input[type=radio]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--line);border-radius:50%;cursor:pointer;transition:all 0.15s;position:relative;background:white}
+.likert-grid input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+.likert-grid input[type=radio]:checked::after{content:'';position:absolute;left:4px;top:4px;width:8px;height:8px;border-radius:50%;background:white}
+
+.callout{border-left:3px solid var(--terra);background:var(--terra-soft);padding:18px 20px;border-radius:0 10px 10px 0;margin-bottom:24px;opacity:0.9}
+.callout-label{font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--terra);font-weight:600;margin-bottom:6px}
+.callout-text{font-size:14.5px;color:var(--ink-soft);line-height:1.65;font-style:italic}
+
+.respondent-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;padding:32px;background:var(--white);border:1px solid var(--line);border-radius:14px}
+.field-group label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:600;margin-bottom:6px}
+
+.rank-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:9px;margin-bottom:5px;transition:background 0.15s;border:1.5px solid transparent}
+.rank-row:hover{background:var(--sage-pale);border-color:var(--sage-light)}
+.rank-select{width:52px;border:1.5px solid var(--line);border-radius:7px;padding:5px 6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:var(--ink);background:white;cursor:pointer;flex-shrink:0}
+.rank-select:focus{outline:none;border-color:var(--sage-mid)}
+.rank-text{font-size:15px;color:var(--ink-soft)}
+.q-divider{height:1px;background:var(--line);margin:18px 0 18px 36px}
+
+.submit-section{background:var(--ink);border-radius:16px;padding:44px;text-align:center;margin-top:48px}
+.submit-section h3{font-family:'Playfair Display',serif;font-size:26px;font-weight:500;color:var(--white);margin-bottom:10px}
+.submit-section p{font-size:15px;color:rgba(255,255,255,0.5);margin-bottom:28px;line-height:1.7}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--sage-mid);color:white;border:none;padding:14px 36px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-primary:hover{background:var(--sage);transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,103,65,0.35)}
+
+.sidebar::-webkit-scrollbar{display:none}
+  .sidebar{padding:24px 16px 24px 0;position:sticky;top:120px;max-height:calc(100vh - 130px);overflow-y:auto;scrollbar-width:none}
+.sidebar-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:14px}
+.sidebar-card h4{font-family:'Playfair Display',serif;font-size:15px;font-weight:500;color:var(--ink);margin-bottom:12px}
+.progress-list{list-style:none}
+.progress-list li{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;color:var(--muted);border-bottom:1px solid var(--canvas-mid);cursor:pointer;transition:color 0.2s;font-weight:500}
+.progress-list li:last-child{border-bottom:none}
+.progress-list li:hover{color:var(--sage)}
+.pl-dot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;font-weight:700;transition:all 0.2s;font-family:'Plus Jakarta Sans',sans-serif}
+.pl-done .pl-dot{background:var(--success);border-color:var(--success);color:white}
+.pl-partial .pl-dot{background:#E05252;border-color:#E05252;color:white}
+.pl-partial{color:#E05252 !important}
+.pl-active{color:var(--sage)!important;font-weight:600!important}
+.pl-active .pl-dot{background:var(--sage);border-color:var(--sage);color:white}
+.respondent-summary{font-size:13.5px;color:var(--muted);line-height:1.7}
+.respondent-summary strong{color:var(--ink-soft);display:block}
+
+#toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:var(--sage-light);padding:13px 22px;border-radius:100px;font-size:14.5px;font-weight:500;opacity:0;transform:translateY(10px);transition:all 0.3s;z-index:200;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+
+
+  /* ── CONFIDENTIALITY BANNER ── */
+  .conf-banner {
+    background: var(--sage-pale);
+    border: 1px solid var(--sage-light);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .conf-banner-icon {
+    width: 36px; height: 36px;
+    background: var(--sage);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .conf-banner-body {}
+  .conf-banner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+  .conf-banner-text {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .conf-banner-text strong { color: var(--ink); font-weight: 600; }
+
+  /* ── ABOUT STUDY INTRO ── */
+  .about-study-block {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--terra);
+  }
+  .about-study-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--terra);
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .about-study-text {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+  }
+
+  .check-label:has(input[name="contact-method"]:checked){background:var(--sage-pale);border-color:var(--sage-mid)!important}
+  .check-label input[name="contact-method"]:checked{background:var(--sage);border-color:var(--sage)}
+  .check-label input[name="contact-method"]:checked::after{content:'';position:absolute;left:4px;top:4px;width:6px;height:6px;border-radius:50%;background:white}
+  @media(max-width:900px){.main-wrap{grid-template-columns:1fr}.sidebar{display:none}.form-area{padding:28px 16px 60px}.options-grid{grid-template-columns:1fr}.hero{padding:48px 20px 40px}nav{padding:0 16px}.section-tabs{padding:0 16px}}
+
+  /* ── CONFIDENTIALITY BANNER */
+  .conf-banner{background:var(--sage-pale);border:1px solid var(--sage-light);border-radius:12px;padding:20px 24px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start}
+  .conf-banner-icon{width:36px;height:36px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .conf-banner-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--sage);margin-bottom:6px}
+  .conf-banner-text{font-size:14px;color:var(--ink-soft);line-height:1.7}
+  .conf-banner-text strong{color:var(--ink);font-weight:600}
+  /* ── ABOUT STUDY */
+  .about-study-block{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--terra);border-radius:12px;padding:24px 28px;margin-bottom:36px}
+  .about-study-label{font-size:10.5px;text-transform:uppercase;letter-spacing:0.12em;color:var(--terra);font-weight:700;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif}
+  .about-study-text{font-size:14.5px;color:var(--ink-soft);line-height:1.75}
+  /* ── HERO ICON */
+  .hero-icon-wrap{margin-bottom:28px;display:flex;align-items:center}
+  .hero-icon-wrap svg{filter:drop-shadow(0 4px 24px rgba(74,103,65,0.25))}
+  /* ── PROGRESS PARTIAL (red) */
+  .pl-partial .pl-dot{background:#D94F4F;border-color:#D94F4F;color:white}
+  .pl-partial{color:#D94F4F!important}
+  /* ── SYMPTOM TABLE 4 cols */
+  .symptom-grid{width:100%;border-collapse:collapse;min-width:900px;table-layout:fixed}
+  .symptom-grid th:first-child{border-radius:9px 0 0 0;width:28%}
+  .symptom-grid th:nth-child(2){width:22%}
+  .symptom-grid th:nth-child(3){width:18%}
+  .symptom-grid th:last-child{border-radius:0 9px 0 0;width:32%}
+  .symptom-name{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+  .hml-group{display:flex;gap:5px;flex-wrap:nowrap}
+  .hml-label{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+  .hml-label input[type=radio]{appearance:none;-webkit-appearance:none;width:13px;height:13px;border:1.5px solid var(--line);border-radius:50%;cursor:pointer;transition:all 0.15s;position:relative;background:white;flex-shrink:0}
+  .hml-label input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+  .hml-label input[type=radio]:checked::after{content:'';position:absolute;left:2px;top:2px;width:7px;height:7px;border-radius:50%;background:white}
+  .ynp-group{display:flex;gap:5px;flex-wrap:nowrap}
+  .ynp-label{display:flex;align-items:center;gap:4px;font-size:11.5px;color:var(--ink-soft);cursor:pointer}
+  .ynp-label input[type=radio]{appearance:none;-webkit-appearance:none;width:13px;height:13px;border:1.5px solid var(--line);border-radius:3px;cursor:pointer;transition:all 0.15s;position:relative;background:white;flex-shrink:0}
+  .ynp-label input[type=radio]:checked{background:var(--sage);border-color:var(--sage)}
+  .ynp-label input[type=radio]:checked::after{content:'';position:absolute;left:3px;top:1px;width:4px;height:7px;border:2px solid white;border-top:none;border-left:none;transform:rotate(42deg)}
+  .symptom-grid td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:middle;white-space:nowrap}
+  .symptom-grid th{background:var(--sage);color:white;font-size:11.5px;font-weight:600;padding:9px 10px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif}
+
+</style>
+</head>
+<body>
+<div id="progress-rail"><div id="progress-bar"></div></div>
+<nav>
+  <div class="nav-brand">Wells Market <em>Co.</em></div>
+  <div class="nav-meta">Obstetrics · Discovery Interview</div>
+  <button class="nav-save" onclick="saveProgress()">Save Progress</button>
+</nav>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+    <div class="hero-kicker">Clinician Discovery Interview</div>
+    <h1>Obstetrics &amp; <em>Perinatal Care</em><br>Product Marketplace Survey</h1>
+    <div class="hero-chips">
+      <div class="hero-chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 23 questions · ~18 min</div>
+      <div class="hero-chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Confidential · March 2026</div>
+      <div class="hero-chip"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> OB / Midwife / CNM</div>
+    </div>
+    </div>
+    <div class="hero-figure">
+      <svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Head outer -->
+        <ellipse cx="82" cy="50" rx="24" ry="26" stroke="#8FB885" stroke-width="2" fill="none" transform="rotate(-20,82,50)"/>
+        <!-- Head inner echo -->
+        <ellipse cx="82" cy="50" rx="19" ry="21" stroke="#4A6741" stroke-width="1" fill="none" opacity="0.4" transform="rotate(-20,82,50)"/>
+
+        <!-- Body outer — clean, no chest detail, no knees arc -->
+        <path d="M 76 74
+                 C 68 86, 60 102, 58 120
+                 C 56 138, 60 154, 70 164
+                 C 82 176, 98 180, 112 174
+                 C 126 168, 134 154, 132 138
+                 C 130 124, 120 114, 114 104
+                 C 106 92, 100 78, 96 74
+                 Z"
+              stroke="#8FB885" stroke-width="2" fill="#4A6741" fill-opacity="0.08" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Body inner echo — lower belly/back only -->
+        <path d="M 94 78 C 88 90, 84 106, 84 122 C 84 138, 88 152, 96 160 C 104 168, 114 170, 122 164 C 130 158, 132 146, 130 134"
+              stroke="#4A6741" stroke-width="1" fill="none" opacity="0.4" stroke-linecap="round"/>
+
+        <!-- Baby head -->
+        <circle cx="86" cy="124" r="9" stroke="#B5D4F4" stroke-width="1.4" fill="none" opacity="0.7"/>
+        <!-- Baby spine arc -->
+        <path d="M 92 130 C 98 136, 102 144, 100 152 C 98 158, 92 162, 86 162"
+              stroke="#B5D4F4" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.65"/>
+        <!-- Tucked legs arc -->
+        <path d="M 86 162 C 80 164, 74 160, 72 154 C 70 148, 74 142, 80 140"
+              stroke="#B5D4F4" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.65"/>
+
+        <!-- Heart -->
+        <path d="M 88 144 C 88 144, 82 138, 82 134 C 82 131, 85 129, 88 132 C 91 129, 94 131, 94 134 C 94 138, 88 144, 88 144Z"
+              fill="#B5D4F4" opacity="0.9"/>
+        <!-- Soft glow -->
+        <ellipse cx="87" cy="143" rx="20" ry="20" fill="#B5D4F4" opacity="0.05"/>
+
+      </svg>
+    </div>
+  </div>
+</div>
+<div class="section-tabs">
+  <button class="tab-btn active" onclick="scrollToSection('sec-info')">A · Respondent Info</button>
+  <button class="tab-btn" onclick="scrollToSection('sec-a')">B · Current Practice</button>
+  <button class="tab-btn" onclick="scrollToSection('sec-b')">C · Unmet Needs</button>
+  <button class="tab-btn" onclick="scrollToSection('sec-c')">D · Business Model</button>
+  <button class="tab-btn" onclick="scrollToSection('sec-d')">E · Insurance &amp; Payor</button>
+  <button class="tab-btn" onclick="scrollToSection('sec-e')">F · Closing</button>
+</div>
+
+<div class="main-wrap">
+<div class="form-area">
+
+  <!-- CONFIDENTIALITY BANNER -->
+  <div class="conf-banner">
+    <div class="conf-banner-icon">
+      <svg width="17" height="17" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="conf-banner-body">
+      <div class="conf-banner-title">Confidentiality Notice</div>
+      <div class="conf-banner-text">
+        <strong>Your participation and identity are fully confidential.</strong> All responses, including your name, practice information, and any identifying details, will be kept strictly confidential and will not be shared with any third party. Participation in this survey is voluntary and anonymous in any reported findings.<br><br>
+        This information is being collected solely to <strong>understand service and market product fit</strong> — specifically, to evaluate whether a clinically validated, patient-first product marketplace would meaningfully serve your patients and integrate into your practice.
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT THIS STUDY -->
+  <div class="about-study-block">
+    <div class="about-study-label">About this Study</div>
+    <div class="about-study-text">
+      Today, patients are largely left on their own to navigate supportive care — facing predatory marketing, products that aren't curated or appropriate for their specific condition, and no clear path to coverage through insurance or supplemental benefits. At the same time, providers have little visibility into whether patients are actually accessing the non-pharmaceutical products they recommend, receiving the right items, or getting any financial relief to help them do so.
+      <br><br>
+      Wells Market Co. is contemplating building a clinically validated supportive care marketplace designed to close that gap: giving providers a simple way to recommend the products best suited for each patient's care, helping to ensure access to those items either through delivery at point of care or at home, and automatically applying any insurance or supplemental benefit coverage — so that the right product reaches the right patient, at the right time, with as little friction and out-of-pocket cost as possible.
+      <br><br>
+      <strong>Your candid perspective will shape what and how we build this solution.</strong>
+    </div>
+  </div>
+
+  <!-- RESPONDENT INFO -->
+  <div class="section-block" id="sec-info">
+    <div class="section-label">
+      <div class="section-letter">A</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Respondent Information</div>
+        <div class="section-subtitle">Please complete before beginning</div>
+      </div>
+    </div>
+    <div class="respondent-grid">
+      <div class="field-group">
+        <label>Name</label>
+        <input class="text-input" type="text" id="resp-name" placeholder="First and last name" oninput="updateSidebar()">
+      </div>
+      <div class="field-group">
+        <label>Employer / Practice Name</label>
+        <input class="text-input" type="text" id="resp-employer" placeholder="e.g. Mass General Hospital" oninput="updateSidebar()">
+      </div>
+      <div class="field-group">
+        <label>Clinical Certification</label>
+        <input class="text-input" type="text" id="resp-role" placeholder="e.g. OB/GYN, CNM, Midwife" oninput="updateSidebar()">
+      </div>
+      <div class="field-group">
+        <label>Practice Setting</label>
+        <input class="text-input" type="text" id="resp-setting" placeholder="e.g. Academic Medical Center, Private Practice" oninput="updateSidebar()">
+      </div>
+      <div class="field-group">
+        <label>Patients Seen / Month</label>
+        <input class="text-input" type="text" id="resp-volume" placeholder="Approximate number" oninput="updateSidebar()">
+      </div>
+      <div class="field-group">
+        <label>Interview Date</label>
+        <input class="text-input" type="date" id="resp-date">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION A -->
+  <div class="section-block" id="sec-a">
+    <div class="section-label">
+      <div class="section-letter">B</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Current Product Recommendations &amp; Practices</div>
+        <div class="section-subtitle">B · Questions 1 – 5</div>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question" id="q1">
+      <div class="q-header">
+        <div class="q-num">Q1</div>
+        <div class="q-text">Which product categories do you currently recommend to patients? <em style="font-style:italic;font-weight:400;color:var(--mist)">(Select all that apply)</em></div>
+      </div>
+      <p class="q-note">Check all that apply. Add specific brands or products in the margin or notes below.</p>
+      <div class="options-grid">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Pregnancy comfort <em>body pillows, belly support bands, compression socks</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Nausea &amp; morning sickness <em>ginger, acupressure bands, vitamin B6 products</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Prenatal nutrition <em>supplements, folate, DHA, iron-supportive products</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Labor preparation &amp; comfort <em>birth balls, TENS devices, perineal massage oil</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Postpartum perineal care <em>peri bottles, sitz baths, cooling pads, witch hazel</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Breastfeeding support <em>nipple care, breast pads, pumping accessories, lactation supplements</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Postpartum recovery <em>abdominal binders, pelvic floor supports, scar care</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Mental wellness <em>mood support, sleep aids, stress management tools</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Infant care <em>safe sleep, skin care, feeding tools</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Pelvic floor &amp; intimacy <em>lubricants, pelvic floor tools for postpartum return</em></span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Home monitoring tools <em>blood pressure cuffs, digital scales, kick-count trackers</em></span></label>
+      </div>
+      <div class="other-row">
+        <div class="other-input-wrap">
+          <input type="checkbox" onchange="toggleCheck(this)">
+          <span class="other-label">Other:</span>
+          <input type="text" class="other-text-input" placeholder="Describe another category…">
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question" id="q2">
+      <div class="q-header">
+        <div class="q-num">Q2</div>
+        <div class="q-text">How do you typically communicate these recommendations to patients?</div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Verbal recommendation during the visit</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Printed handout or take-home sheet</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">After-visit summary / patient portal message</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Nurse, MA, or care coordinator communicates on our behalf</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">We rely on patients to ask — we don't proactively recommend</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder="Other method…"></div></div>
+      <div class="write-in-block">
+        <span class="write-in-label">What's missing from your current approach?</span>
+        <textarea placeholder="Your thoughts…"></textarea>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question" id="q3">
+      <div class="q-header">
+        <div class="q-num">Q3</div>
+        <div class="q-text">When you recommend a product, what typically happens next?</div>
+      </div>
+      <p class="q-note">Select all that apply.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I name a specific brand; the patient sources it themselves</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I give general guidance (e.g., 'fragrance-free lotion') with no brand</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">My clinic has a resource list we hand out</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">We stock some products on-site for patients</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I direct them to Amazon or a general retailer</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I honestly don't know what they do with the recommendation</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question" id="q4">
+      <div class="q-header">
+        <div class="q-num">Q4</div>
+        <div class="q-text">What specific brands or products do you recommend most often?</div>
+      </div>
+      <p class="q-note">Please be as specific as possible — brand names, where to buy, and why you recommend them over alternatives.</p>
+      <div class="product-grid-wrap">
+        <table class="product-grid">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product Name</th>
+              <th>Brand</th>
+              <th>Where to Purchase</th>
+              <th>Notes / Why You Recommend It</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="row-num">1</td><td><input type="text" placeholder="e.g. Nausea relief band"></td><td><input type="text" placeholder="e.g. Sea-Band"></td><td><input type="text" placeholder="e.g. Amazon, pharmacy"></td><td><input type="text" placeholder="Reason…"></td></tr>
+            <tr><td class="row-num">2</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">3</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">4</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">5</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">6</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">7</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">8</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">9</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+            <tr><td class="row-num">10</td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td><td><input type="text" placeholder=""></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question" id="q5">
+      <div class="q-header">
+        <div class="q-num">Q5</div>
+        <div class="q-text">How confident are you that patients acquire and use what you recommend?</div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q5" onchange="toggleCheck(this)"><span class="check-text">Very confident — we follow up and confirm</span></label>
+        <label class="check-label"><input type="radio" name="q5" onchange="toggleCheck(this)"><span class="check-text">Somewhat confident — most seem to follow through</span></label>
+        <label class="check-label"><input type="radio" name="q5" onchange="toggleCheck(this)"><span class="check-text">Not very confident — cost and access are common barriers</span></label>
+        <label class="check-label"><input type="radio" name="q5" onchange="toggleCheck(this)"><span class="check-text">I have no idea — we don't track this</span></label>
+      </div>
+      <div class="write-in-block">
+        <span class="write-in-label">Biggest barrier you observe:</span>
+        <textarea placeholder="Your thoughts…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="section-block" id="sec-b">
+    <div class="section-label">
+      <div class="section-letter">C</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Unmet Needs &amp; Patient Outcomes</div>
+        <div class="section-subtitle">C · Questions 6 – 8</div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="question" id="q6">
+      <div class="q-header">
+        <div class="q-num">Q6</div>
+        <div class="q-text">If patients had better access to the right supportive products, which outcomes would most improve?</div>
+      </div>
+      <p class="q-note">Rank your top 3 using the dropdowns — or check all that apply.</p>
+      <div class="options-grid" style="padding-left:36px;gap:6px;grid-template-columns:1fr;">
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Treatment adherence / completion rates</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Patient-reported quality of life</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Reduction in unplanned clinical visits for manageable symptoms</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Patient satisfaction scores</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Caregiver burden reduction</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Emotional wellbeing and perinatal mental health</span></div>
+        <div class="rank-row"><select class="rank-select"><option value="">—</option><option>1</option><option>2</option><option>3</option></select><span class="rank-text">Recovery speed or functional restoration postpartum</span></div>
+      </div>
+      <div class="other-row" style="margin-top:8px;"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+    </div>
+
+    <!-- Q7 — Symptom Grid -->
+    <div class="question" id="q7">
+      <div class="q-header">
+        <div class="q-num">Q7</div>
+        <div class="q-text">Which symptoms or needs do your patients most commonly struggle with — and where do the biggest product gaps exist?</div>
+      </div>
+      <p class="q-note">Rate prevalence (High / Medium / Low) and whether good products currently exist.</p>
+      <div class="symptom-grid-wrap">
+        <table class="symptom-grid">
+          <thead>
+            <tr>
+              <th>Symptom / Need</th>
+              <th>How Common?<br><span style="font-weight:300;font-size:10px;">High / Med / Low</span></th>
+              <th>Good Products Exist?</th>
+              <th style="border-radius:0 9px 0 0">Key Issues <span style="font-weight:300;font-size:10px;display:block;margin-top:1px;">context on your answer</span></th>
+            </tr>
+          </thead>
+          <tbody id="symptom-tbody">
+            <tr>
+              <td><span class="symptom-name">Nausea &amp; vomiting of pregnancy</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym0hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym0hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym0hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym0ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym0ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym0ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Pelvic girdle pain</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym1hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym1hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym1hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym1ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym1ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym1ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><span class="symptom-name">Perineal trauma &amp; recovery</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym2hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym2hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym2hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym2ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym2ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym2ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Breastfeeding difficulties &amp; pain</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym3hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym3hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym3hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym3ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym3ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym3ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><span class="symptom-name">Postpartum fatigue</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym4hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym4hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym4hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym4ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym4ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym4ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Postpartum mood concerns</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym5hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym5hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym5hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym5ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym5ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym5ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><span class="symptom-name">Diastasis recti</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym6hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym6hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym6hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym6ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym6ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym6ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Pelvic floor dysfunction</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym7hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym7hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym7hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym7ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym7ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym7ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><span class="symptom-name">Sleep disruption</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym8hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym8hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym8hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym8ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym8ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym8ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Postpartum sexual health concerns</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym9hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym9hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym9hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym9ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym9ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym9ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><span class="symptom-name">Hypertension / blood pressure management</span></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym10hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym10hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym10hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym10ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym10ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym10ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="symptom-name">Weight monitoring &amp; gestational weight gain</span></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym11hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym11hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym11hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym11ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym11ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym11ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td><input type="text" placeholder="Other 1: describe symptom / need…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);white-space:nowrap;" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+              <td><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym12hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym12hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym12hml" value="Low"> Low</label>
+              </div></td>
+              <td><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym12ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym12ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym12ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="Other 2: describe symptom / need…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);white-space:nowrap;" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+              <td style="background:var(--sage-pale)"><div class="hml-group">
+                <label class="hml-label"><input type="radio" name="sym13hml" value="High"> High</label>
+                <label class="hml-label"><input type="radio" name="sym13hml" value="Med"> Med</label>
+                <label class="hml-label"><input type="radio" name="sym13hml" value="Low"> Low</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><div class="ynp-group">
+                <label class="ynp-label"><input type="radio" name="sym13ynp" value="Yes"> Yes</label>
+                <label class="ynp-label"><input type="radio" name="sym13ynp" value="No"> No</label>
+                <label class="ynp-label"><input type="radio" name="sym13ynp" value="Partial"> Partial</label>
+              </div></td>
+              <td style="background:var(--sage-pale)"><input type="text" placeholder="e.g. No differentiation / poor adherence…" style="width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:12.5px;color:var(--ink);padding:3px 2px;outline:none;border-bottom:1px solid var(--line);" onfocus="this.style.borderBottomColor='var(--sage-mid)'" onblur="this.style.borderBottomColor='var(--line)'"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="question" id="q8">
+      <div class="q-header">
+        <div class="q-num">Q8</div>
+        <div class="q-text">Which patient types or diagnoses would benefit most from a curated supportive care marketplace?</div>
+      </div>
+      <p class="q-note">This helps us prioritize which patient profiles to build for first.</p>
+      <div class="options-grid">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">First-time pregnant patients (nulliparous)</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Multiparous patients</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">High-risk / medically complex / chronic condition pregnancies</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Patients planning unmedicated birth</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Cesarean birth &amp; recovery patients</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Patients with hyperemesis gravidarum</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Patients experiencing perinatal mood disorders</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Postpartum patients (0–6 weeks)</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Extended postpartum (6 weeks–1 year)</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Preconception / fertility-planning patients</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other priority group:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+      <div class="write-in-block">
+        <span class="write-in-label">Which single patient type would you want us to build for first, and why?</span>
+        <textarea placeholder="Your thoughts…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="section-block" id="sec-c">
+    <div class="section-label">
+      <div class="section-letter">D</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Business Model &amp; Delivery Preferences</div>
+        <div class="section-subtitle">D · Questions 9 – 13</div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-label">Context</div>
+      <div class="callout-text">Imagine Wells Market Co. — a clinically validated product marketplace built specifically for patients managing routine health issues, medically complex or acute issues, or chronic conditions, with products curated and approved by a Clinical Advisory Board and your practice. The following questions explore how you would want this to work for your Obstetrics / CNM patient population.</div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="question" id="q9">
+      <div class="q-header"><div class="q-num">Q9</div><div class="q-text">How would you most want patients to access a curated product marketplace?</div></div>
+      <p class="q-note">Select your preferred model — or rank 1–4 if more than one appeals.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Digital marketplace — patients shop and order to their home themselves</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Practice-curated link — we share a custom URL pre-filtered for their condition</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">On-site kiosk or display — products available for immediate take-home at the clinic</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Care team-initiated — nurse or coordinator places the order on the patient's behalf</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Combination — some products in-clinic; broader catalog available online</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+      <div class="write-in-block"><span class="write-in-label">What would make this most practical in your specific clinic context?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="question" id="q10">
+      <div class="q-header"><div class="q-num">Q10</div><div class="q-text">If products were available in your clinic, which format would work best?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q10" onchange="toggleCheck(this)"><span class="check-text">Small curated take-home kits stocked at nursing stations or check-out</span></label>
+        <label class="check-label"><input type="radio" name="q10" onchange="toggleCheck(this)"><span class="check-text">Branded display rack in the waiting area — patients self-select</span></label>
+        <label class="check-label"><input type="radio" name="q10" onchange="toggleCheck(this)"><span class="check-text">Sample-only display — patients order full-size products online</span></label>
+        <label class="check-label"><input type="radio" name="q10" onchange="toggleCheck(this)"><span class="check-text">Nothing in-clinic — patients prefer handling this outside the clinical environment</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+      <div class="write-in-block"><span class="write-in-label">Space or logistics concerns in your setting:</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="question" id="q11">
+      <div class="q-header"><div class="q-num">Q11</div><div class="q-text">How interested would you be in a subscription model for your patients?</div></div>
+      <p class="q-note">Example: patients receive a monthly curated box matched to their trimester or postpartum phase, automatically updated as their care plan changes.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q11" onchange="toggleCheck(this)"><span class="check-text">Very interested — patients need ongoing replenishment and hate reordering</span></label>
+        <label class="check-label"><input type="radio" name="q11" onchange="toggleCheck(this)"><span class="check-text">Somewhat interested — would work for some patients, not all</span></label>
+        <label class="check-label"><input type="radio" name="q11" onchange="toggleCheck(this)"><span class="check-text">Neutral — I don't have a strong view on delivery model</span></label>
+        <label class="check-label"><input type="radio" name="q11" onchange="toggleCheck(this)"><span class="check-text">Not interested — patients prefer to buy what they need, when they need it</span></label>
+        <label class="check-label"><input type="radio" name="q11" onchange="toggleCheck(this)"><span class="check-text">Concerned — subscription adds financial burden patients may not want</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">What would need to be true for a subscription to work for your patients?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="question" id="q12">
+      <div class="q-header"><div class="q-num">Q12</div><div class="q-text">How valuable would it be if the marketplace integrated with your EHR or patient portal?</div></div>
+      <p class="q-note">Example: a patient's trimester or condition auto-populates a recommended product list they can review and order directly.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q12" onchange="toggleCheck(this)"><span class="check-text">Extremely valuable — closes the loop between clinical recommendation and patient action</span></label>
+        <label class="check-label"><input type="radio" name="q12" onchange="toggleCheck(this)"><span class="check-text">Valuable — would use it if setup was straightforward</span></label>
+        <label class="check-label"><input type="radio" name="q12" onchange="toggleCheck(this)"><span class="check-text">Neutral — nice to have but not a deciding factor</span></label>
+        <label class="check-label"><input type="radio" name="q12" onchange="toggleCheck(this)"><span class="check-text">Low priority — adds complexity without clear benefit</span></label>
+        <label class="check-label"><input type="radio" name="q12" onchange="toggleCheck(this)"><span class="check-text">Concerned about data privacy / security implications</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Which EHR system does your practice use?</span><input class="text-input" type="text" placeholder="e.g. Epic, Athena, Cerner…" style="margin-top:4px;"></div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="question" id="q13">
+      <div class="q-header"><div class="q-num">Q13</div><div class="q-text">How should clinical validation be communicated to patients to build trust?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">A named Clinical Advisory Board with visible specialist credentials</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Formal endorsement from a recognizable specialty society (ACOG, ACNM, AWHONN)</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Your practice's own recommendation — 'Approved by your care team at [Clinic]'</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Peer patient reviews and testimonials from people with the same experience</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">A combination of clinician endorsement and patient community validation</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="section-block" id="sec-d">
+    <div class="section-label">
+      <div class="section-letter">E</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Insurance, FSA/HSA &amp; Payor Coverage</div>
+        <div class="section-subtitle">E · Questions 14 – 19b</div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="callout-label">Why this matters</div>
+      <div class="callout-text">Many supportive care products are FSA/HSA eligible under post-CARES Act rules. Medicare Advantage and Medicaid managed care plans are building supplemental benefit catalogs — and employer benefit programs are seeking meaningful offerings for employees managing medically complex / chronic conditions. Your perspective on coverage shapes how we design the payment architecture.</div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="question" id="q14">
+      <div class="q-header"><div class="q-num">Q14</div><div class="q-text">Do you currently advise patients that supportive care products may be FSA/HSA eligible?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q14" onchange="toggleCheck(this)"><span class="check-text">Yes — we proactively tell patients this</span></label>
+        <label class="check-label"><input type="radio" name="q14" onchange="toggleCheck(this)"><span class="check-text">Sometimes — if a patient asks about cost</span></label>
+        <label class="check-label"><input type="radio" name="q14" onchange="toggleCheck(this)"><span class="check-text">No — I assumed most products in this category weren't eligible</span></label>
+        <label class="check-label"><input type="radio" name="q14" onchange="toggleCheck(this)"><span class="check-text">No — I wasn't sure of the current FSA/HSA rules</span></label>
+        <label class="check-label"><input type="radio" name="q14" onchange="toggleCheck(this)"><span class="check-text">No — we leave financial topics to billing or social work</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">What would help you feel confident advising patients on FSA/HSA eligibility?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="question" id="q15">
+      <div class="q-header"><div class="q-num">Q15</div><div class="q-text">If products were clearly labeled as FSA/HSA eligible, how would that change your recommendation behavior?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q15" onchange="toggleCheck(this)"><span class="check-text">Significantly — cost is a major barrier and this removes it</span></label>
+        <label class="check-label"><input type="radio" name="q15" onchange="toggleCheck(this)"><span class="check-text">Somewhat — helpful but not the deciding factor for me</span></label>
+        <label class="check-label"><input type="radio" name="q15" onchange="toggleCheck(this)"><span class="check-text">Minimal — my recommendations are based on clinical need, not payment method</span></label>
+        <label class="check-label"><input type="radio" name="q15" onchange="toggleCheck(this)"><span class="check-text">Unsure — depends on which products qualify</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Which products do you most wish were FSA/HSA eligible for your patients?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="question" id="q16">
+      <div class="q-header"><div class="q-num">Q16</div><div class="q-text">Would you find value in this marketplace as an employer-sponsored benefit for employees managing a medically complex / chronic condition?</div></div>
+      <p class="q-note">Think: a curated product benefit employers offer alongside EAP, mental health, and other supplemental benefits.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q16" onchange="toggleCheck(this)"><span class="check-text">Yes — this fills a real gap in the employer benefits stack</span></label>
+        <label class="check-label"><input type="radio" name="q16" onchange="toggleCheck(this)"><span class="check-text">Interesting — I'd want to understand the implementation model</span></label>
+        <label class="check-label"><input type="radio" name="q16" onchange="toggleCheck(this)"><span class="check-text">Neutral — my patients access care through many different employers</span></label>
+        <label class="check-label"><input type="radio" name="q16" onchange="toggleCheck(this)"><span class="check-text">Skeptical — employer programs often have poor uptake in my experience</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Do you have a sense of what employers your patients work for, or whether most are self-insured?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q17 -->
+    <div class="question" id="q17">
+      <div class="q-header"><div class="q-num">Q17</div><div class="q-text">Are you aware that Medicare Advantage plans can cover supplemental non-medical benefits — and would this marketplace work as one?</div></div>
+      <p class="q-note">Model: SilverSneakers for supportive care products — payor-funded, patient-activated, outcomes-trackable.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q17" onchange="toggleCheck(this)"><span class="check-text">Yes — I'm aware and think it's a strong opportunity</span></label>
+        <label class="check-label"><input type="radio" name="q17" onchange="toggleCheck(this)"><span class="check-text">I've heard of it but don't know how it works operationally</span></label>
+        <label class="check-label"><input type="radio" name="q17" onchange="toggleCheck(this)"><span class="check-text">No — I wasn't aware of this supplemental benefit capability</span></label>
+        <label class="check-label"><input type="radio" name="q17" onchange="toggleCheck(this)"><span class="check-text">Aware, but skeptical — MA plan implementation is usually difficult in practice</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Roughly what percentage of your patients are on Medicare Advantage?</span><input class="text-input" type="text" placeholder="Approximate %" style="margin-top:4px;"></div>
+    </div>
+
+    <!-- Q17b — MEDICAID -->
+    <div class="question" id="q17b">
+      <div class="q-header"><div class="q-num">Q17b</div><div class="q-text">What proportion of your patients are on Medicaid — and do you think Medicaid coverage of supportive care products is a realistic near-term opportunity?</div></div>
+      <p class="q-note">Medicaid coverage varies significantly by state. We want to understand the landscape from your vantage point.</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">A significant portion of my patients are on Medicaid — coverage here would be high-impact</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Some Medicaid patients, but not the majority of my panel</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Few or no Medicaid patients in my practice</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I don't track insurance type closely</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Are you aware of any state Medicaid programs that already cover non-pharmaceutical supportive care products?</span><textarea placeholder="Your thoughts…"></textarea></div>
+      <div class="q-divider"></div>
+      <p class="q-note" style="margin-top:0">Your view on Medicaid coverage potential:</p>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">I believe Medicaid coverage is realistic if outcomes data exists</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Medicaid coverage is unlikely near-term — reimbursement policy moves too slowly</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Medicaid managed care organizations (MCOs) may be a faster path than fee-for-service</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Unsure — I don't have enough visibility into Medicaid policy</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">Which Medicaid MCOs or state programs are most active in your region?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q18 -->
+    <div class="question" id="q18">
+      <div class="q-header"><div class="q-num">Q18</div><div class="q-text">What would need to be true for a payor or employer to fund access to this marketplace?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Demonstrated outcomes data linking product use to adherence or fewer unplanned visits</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Reduction in ED use or hospitalizations for manageable symptoms</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Patient satisfaction or quality-of-life score improvement</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">A competitive cost-per-member-per-month vs. alternative interventions</span></label>
+        <label class="check-label"><input type="checkbox" onchange="toggleCheck(this)"><span class="check-text">Endorsement from a specialty society or major academic medical center</span></label>
+      </div>
+      <div class="other-row"><div class="other-input-wrap"><input type="checkbox" onchange="toggleCheck(this)"><span class="other-label">Other:</span><input type="text" class="other-text-input" placeholder=""></div></div>
+      <div class="write-in-block"><span class="write-in-label">What evidence would you personally want to see before recommending payor coverage?</span><textarea class="tall" placeholder="Your thoughts…"></textarea></div>
+    </div>
+
+    <!-- Q19 -->
+    <div class="question" id="q19">
+      <div class="q-header"><div class="q-num">Q19</div><div class="q-text">If unlocking payor coverage required a Letter of Medical Necessity from you — how willing would you be to provide one?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q19" onchange="toggleCheck(this)"><span class="check-text">Very willing — if it helps patients access products they need, I'd sign</span></label>
+        <label class="check-label"><input type="radio" name="q19" onchange="toggleCheck(this)"><span class="check-text">Willing — if the process is streamlined and takes under 5 minutes</span></label>
+        <label class="check-label"><input type="radio" name="q19" onchange="toggleCheck(this)"><span class="check-text">Neutral — depends on the product and the clinical evidence behind it</span></label>
+        <label class="check-label"><input type="radio" name="q19" onchange="toggleCheck(this)"><span class="check-text">Reluctant — LMN documentation adds to my administrative burden</span></label>
+        <label class="check-label"><input type="radio" name="q19" onchange="toggleCheck(this)"><span class="check-text">Not willing — this is outside what I should be doing</span></label>
+      </div>
+      <div class="write-in-block"><span class="write-in-label">What would make the LMN process acceptable to you?</span><textarea placeholder="Your thoughts…"></textarea></div>
+    </div>
+  </div>
+
+  <!-- SECTION E -->
+  <div class="section-block" id="sec-e">
+    <div class="section-label">
+      <div class="section-letter">F</div>
+      <div class="section-title-wrap">
+        <div class="section-title">Closing</div>
+        <div class="section-subtitle">F · Questions 20 – 23</div>
+      </div>
+    </div>
+
+    <!-- Q20 Likert -->
+    <div class="question" id="q20">
+      <div class="q-header"><div class="q-num">Q20</div><div class="q-text">Please rate your agreement with the following statements.</div></div>
+      <p class="q-note">1 = Strongly Disagree &nbsp;·&nbsp; 3 = Neutral &nbsp;·&nbsp; 5 = Strongly Agree</p>
+      <div class="likert-table">
+        <table class="likert-grid">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>N/A</th>
+            </tr>
+          </thead>
+          <tbody id="likert-tbody">
+            <tr>
+              <td><span class="stmt-text">My patients frequently ask what products can help during pregnancy or postpartum</span></td>
+              <td><input type="radio" name="likert0" value="1"></td><td><input type="radio" name="likert0" value="2"></td><td><input type="radio" name="likert0" value="3"></td><td><input type="radio" name="likert0" value="4"></td><td><input type="radio" name="likert0" value="5"></td><td><input type="radio" name="likert0" value="na"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="stmt-text">I feel confident in the product recommendations I currently give</span></td>
+              <td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="1"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="2"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="3"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="4"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="5"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert1" value="na"></td>
+            </tr>
+            <tr>
+              <td><span class="stmt-text">Product cost and access are real barriers for my patients</span></td>
+              <td><input type="radio" name="likert2" value="1"></td><td><input type="radio" name="likert2" value="2"></td><td><input type="radio" name="likert2" value="3"></td><td><input type="radio" name="likert2" value="4"></td><td><input type="radio" name="likert2" value="5"></td><td><input type="radio" name="likert2" value="na"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="stmt-text">A curated marketplace would change how I approach recommendations</span></td>
+              <td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="1"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="2"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="3"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="4"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="5"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert3" value="na"></td>
+            </tr>
+            <tr>
+              <td><span class="stmt-text">I would refer patients to this marketplace if it existed</span></td>
+              <td><input type="radio" name="likert4" value="1"></td><td><input type="radio" name="likert4" value="2"></td><td><input type="radio" name="likert4" value="3"></td><td><input type="radio" name="likert4" value="4"></td><td><input type="radio" name="likert4" value="5"></td><td><input type="radio" name="likert4" value="na"></td>
+            </tr>
+            <tr>
+              <td style="background:var(--sage-pale)"><span class="stmt-text">I would consider formally partnering with or endorsing such a platform</span></td>
+              <td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="1"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="2"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="3"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="4"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="5"></td><td style="background:var(--sage-pale)"><input type="radio" name="likert5" value="na"></td>
+            </tr>
+            <tr>
+              <td><span class="stmt-text">My practice would be open to featuring this resource on-site or digitally</span></td>
+              <td><input type="radio" name="likert6" value="1"></td><td><input type="radio" name="likert6" value="2"></td><td><input type="radio" name="likert6" value="3"></td><td><input type="radio" name="likert6" value="4"></td><td><input type="radio" name="likert6" value="5"></td><td><input type="radio" name="likert6" value="na"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Q21 -->
+    <div class="question" id="q21">
+      <div class="q-header"><div class="q-num">Q21</div><div class="q-text">If you could design the ideal version of this concept — with no constraints — what would it look like?</div></div>
+      <p class="q-note">This is the most important question. Please take a moment with it.</p>
+      <div class="write-in-block">
+        <textarea class="xtall" placeholder="Describe your ideal vision…"></textarea>
+      </div>
+    </div>
+
+    <!-- Q22 -->
+    <div class="question" id="q22">
+      <div class="q-header"><div class="q-num">Q22</div><div class="q-text">Is there anyone in your practice, network, or peer institutions we should speak with?</div></div>
+      <div class="write-in-block">
+        <span class="write-in-label">Name / role / contact (if comfortable sharing):</span>
+        <textarea placeholder="Referrals welcome…"></textarea>
+      </div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="question" id="q23">
+      <div class="q-header"><div class="q-num">Q23</div><div class="q-text">Would you be open to a follow-up conversation as we refine the concept?</div></div>
+      <div class="options-grid single-col">
+        <label class="check-label"><input type="radio" name="q23" onchange="toggleCheck(this)"><span class="check-text">Yes — please reach out</span></label>
+        <label class="check-label"><input type="radio" name="q23" onchange="toggleCheck(this)"><span class="check-text">Maybe — send more details first</span></label>
+        <label class="check-label"><input type="radio" name="q23" onchange="toggleCheck(this)"><span class="check-text">No — but happy this conversation helped</span></label>
+      </div>
+
+      <div class="write-in-block" style="margin-top:20px;">
+        <span class="write-in-label">Preferred method of contact</span>
+        <div style="display:flex;gap:12px;margin-top:8px;padding-left:0;">
+          <label class="check-label" style="padding:10px 20px;border-radius:100px;border:1.5px solid var(--line);background:var(--canvas);cursor:pointer;transition:all 0.15s;">
+            <input type="radio" name="contact-method" value="Email" onchange="toggleCheck(this);toggleContactFields(this.value)" style="appearance:none;-webkit-appearance:none;width:16px;height:16px;border:1.5px solid var(--line);border-radius:50%;flex-shrink:0;cursor:pointer;transition:all 0.15s;position:relative;background:white;">
+            <span class="check-text" style="font-weight:500;">Email</span>
+          </label>
+          <label class="check-label" style="padding:10px 20px;border-radius:100px;border:1.5px solid var(--line);background:var(--canvas);cursor:pointer;transition:all 0.15s;">
+            <input type="radio" name="contact-method" value="Cell" onchange="toggleCheck(this);toggleContactFields(this.value)" style="appearance:none;-webkit-appearance:none;width:16px;height:16px;border:1.5px solid var(--line);border-radius:50%;flex-shrink:0;cursor:pointer;transition:all 0.15s;position:relative;background:white;">
+            <span class="check-text" style="font-weight:500;">Cell</span>
+          </label>
+          <label class="check-label" style="padding:10px 20px;border-radius:100px;border:1.5px solid var(--line);background:var(--canvas);cursor:pointer;transition:all 0.15s;">
+            <input type="radio" name="contact-method" value="Either" onchange="toggleCheck(this);toggleContactFields(this.value)" style="appearance:none;-webkit-appearance:none;width:16px;height:16px;border:1.5px solid var(--line);border-radius:50%;flex-shrink:0;cursor:pointer;transition:all 0.15s;position:relative;background:white;">
+            <span class="check-text" style="font-weight:500;">Either</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="write-in-block" style="margin-top:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <span class="write-in-label">Preferred contact email</span>
+            <input class="text-input" type="email" id="resp-email" placeholder="your@email.com" style="margin-top:6px;">
+          </div>
+          <div>
+            <span class="write-in-label">Preferred contact cell</span>
+            <input class="text-input" type="tel" id="resp-cell" placeholder="(555) 000-0000" style="margin-top:6px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <h3>Thank you for your time.</h3>
+      <p>Your perspective will directly shape how Wells Market Co. is built.<br>This form is confidential and for research purposes only.</p>
+      <button class="btn-primary" onclick="submitForm()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit Interview
+      </button>
+    </div>
+  </div>
+
+</div><!-- /form-area -->
+<aside class="sidebar">
+  <div class="sidebar-card">
+    <h4>Progress</h4>
+    <ul class="progress-list">
+      <li id="pl-info" class="pl-active" onclick="scrollToSection('sec-info')"><span class="pl-dot">A</span> Respondent Info</li>
+      <li id="pl-a" onclick="scrollToSection('sec-a')"><span class="pl-dot">B</span> Current Practice</li>
+      <li id="pl-b" onclick="scrollToSection('sec-b')"><span class="pl-dot">C</span> Unmet Needs</li>
+      <li id="pl-c" onclick="scrollToSection('sec-c')"><span class="pl-dot">D</span> Business Model</li>
+      <li id="pl-d" onclick="scrollToSection('sec-d')"><span class="pl-dot">E</span> Insurance &amp; Payor</li>
+      <li id="pl-e" onclick="scrollToSection('sec-e')"><span class="pl-dot">F</span> Closing</li>
+    </ul>
+  </div>
+  </div>
+</aside>
+</div>
+<div id="toast"></div>
+<script>
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mzdjnaoo';
+
+// ── Checkbox / radio visual toggle
+function toggleCheck(el) {
+  const label = el.closest('.check-label');
+  if (!label) return;
+  if (el.type === 'radio') {
+    document.querySelectorAll(`input[name="${el.name}"]`).forEach(r => {
+      const l = r.closest('.check-label');
+      if (l) l.classList.remove('checked');
+    });
+    if (el.checked) label.classList.add('checked');
+  } else {
+    label.classList.toggle('checked', el.checked);
+  }
+  updateProgress();
+}
+
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'radio' && !e.target.closest('.check-label')) updateProgress();
+});
+
+// ── Progress: white=untouched, red=partial, green=complete
+function updateProgress() {
+  const allInputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"], textarea, input[type="text"], input[type="email"], input[type="date"], select');
+  let filled = 0;
+  allInputs.forEach(inp => {
+    if (inp.type === 'radio' || inp.type === 'checkbox') { if (inp.checked) filled++; }
+    else if (inp.value && inp.value.trim()) filled++;
+  });
+  const pct = Math.min(98, Math.round((filled / 60) * 100));
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  const sections = ['sec-info','sec-a','sec-b','sec-c','sec-d','sec-e'];
+  const plIds    = ['pl-info','pl-a','pl-b','pl-c','pl-d','pl-e'];
+  const totalQs  = [4, 5, 3, 5, 6, 3];
+
+  sections.forEach((secId, i) => {
+    const el = document.getElementById(secId);
+    const plEl = document.getElementById(plIds[i]);
+    if (!el || !plEl) return;
+
+    let answered = 0;
+    el.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(() => answered++);
+    el.querySelectorAll('textarea, input[type="text"], input[type="email"], input[type="date"], select').forEach(inp => {
+      if (inp.value && inp.value.trim()) answered++;
+    });
+
+    plEl.classList.remove('pl-done', 'pl-partial');
+    if (answered === 0) {
+      // white — untouched
+    } else if (answered >= totalQs[i]) {
+      plEl.classList.add('pl-done');   // green
+    } else {
+      plEl.classList.add('pl-partial'); // red
+    }
+  });
+}
+
+// ── Sidebar respondent summary
+function updateSidebar() {
+  const name     = document.getElementById('resp-name')?.value || '';
+  const employer = document.getElementById('resp-employer')?.value || '';
+  const role     = document.getElementById('resp-role').value;
+  const setting  = document.getElementById('resp-setting').value;
+  const vol      = document.getElementById('resp-volume').value;
+  let html = '';
+  if (name)     html += `<strong>Name</strong>${name}<br>`;
+  if (employer) html += `<strong>Employer</strong>${employer}<br>`;
+  if (role)     html += `<strong>Certification</strong>${role}<br>`;
+  if (setting)  html += `<strong>Setting</strong>${setting}<br>`;
+  if (vol)      html += `<strong>Volume</strong>${vol} patients/mo`;
+  document.getElementById('resp-summary').innerHTML = html ||
+    '<em style="color:var(--line);font-style:italic;font-size:12px;">Fill in details above.</em>';
+}
+
+// ── Scroll to section (accounts for fixed nav 66px + sticky tabs ~46px)
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const y = el.getBoundingClientRect().top + window.scrollY - 120;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+// ── Tab active state on scroll
+const _sections = document.querySelectorAll('.section-block');
+const _tabBtns  = document.querySelectorAll('.tab-btn');
+window.addEventListener('scroll', () => {
+  let current = '';
+  _sections.forEach(sec => {
+    if (sec.getBoundingClientRect().top < 160) current = sec.id;
+  });
+  _tabBtns.forEach((btn, i) => {
+    btn.classList.remove('active');
+    const ids = ['sec-info','sec-a','sec-b','sec-c','sec-d','sec-e'];
+    if (ids[i] === current) btn.classList.add('active');
+  });
+  updateProgress();
+}, { passive: true });
+
+// ── Collect all form data
+function collectFormData() {
+  const data = {};
+  const radioGroups = {};
+  document.querySelectorAll('input[type="radio"]').forEach(el => {
+    if (el.name && el.checked) radioGroups[el.name] = el.value;
+  });
+  Object.assign(data, radioGroups);
+  const cbGroups = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+    if (!el.name) return;
+    if (!cbGroups[el.name]) cbGroups[el.name] = [];
+    if (el.checked) cbGroups[el.name].push(
+      el.value || el.closest('.check-label')?.querySelector('.check-text')?.textContent?.trim()?.split('\n')[0] || 'checked'
+    );
+  });
+  Object.assign(data, cbGroups);
+  document.querySelectorAll('input[type="text"][id], input[type="email"][id], input[type="date"][id]').forEach(el => {
+    data[el.id] = el.value;
+  });
+  document.querySelectorAll('textarea').forEach((el, i) => {
+    const q = el.closest('.question');
+    const qnum = q ? (q.querySelector('.q-num')?.textContent?.trim() || '') : '';
+    data[`response_${qnum || i}`] = el.value;
+  });
+  document.querySelectorAll('.product-grid tbody tr').forEach((row, i) => {
+    const cells = row.querySelectorAll('input[type="text"]');
+    if (cells.length === 4) {
+      data[`product_${i+1}`] = [cells[0].value, cells[1].value, cells[2].value, cells[3].value].filter(Boolean).join(' | ');
+    }
+  });
+  document.querySelectorAll('.rank-row').forEach((row, i) => {
+    const sel = row.querySelector('.rank-select');
+    const lbl = row.querySelector('.rank-text')?.textContent?.trim();
+    if (sel?.value) data[`rank_q6_item${i+1}`] = `${sel.value}: ${lbl}`;
+  });
+  document.querySelectorAll('.other-text-input').forEach((el, i) => {
+    if (el.value) data[`other_text_${i+1}`] = el.value;
+  });
+  return data;
+}
+
+// ── Save to localStorage
+function saveProgress() {
+  try {
+    localStorage.setItem('wellsco_obs_draft', JSON.stringify(collectFormData()));
+    showToast('✓ Draft saved — your answers are stored in this browser. Return any time to continue.');
+  } catch(e) {
+    showToast('⚠ Could not save — please ensure browser storage is enabled.');
+  }
+}
+
+// ── Restore draft
+function restoreDraft() {
+  try {
+    const saved = localStorage.getItem('wellsco_obs_draft');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    Object.entries(data).forEach(([name, value]) => {
+      document.querySelectorAll(`[name="${name}"]`).forEach(el => {
+        if (el.type === 'radio')   { if (el.value === value) { el.checked = true; el.closest('.check-label')?.classList.add('checked'); } }
+        if (el.type === 'checkbox') { if (Array.isArray(value) && value.includes(el.value)) { el.checked = true; el.closest('.check-label')?.classList.add('checked'); } }
+      });
+      const byId = document.getElementById(name);
+      if (byId && byId.type !== 'radio' && byId.type !== 'checkbox' && typeof value === 'string') byId.value = value;
+    });
+    updateSidebar();
+    updateProgress();
+  } catch(e) {}
+}
+
+// ── Submit to Formspree
+async function submitForm() {
+  const btn = document.querySelector('.btn-primary');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+  const data = collectFormData();
+  const role = data['resp-role'] || 'Clinician';
+  data['_subject'] = `Wells Market Co. Obstetrics Survey — ${role} — ${new Date().toLocaleDateString()}`;
+  data['_replyto'] = data['resp-email'] || '';
+  const flat = {};
+  Object.entries(data).forEach(([k, v]) => { flat[k] = Array.isArray(v) ? (v.length ? v.join('; ') : '') : (v || ''); });
+  try {
+    const res = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(flat)
+    });
+    if (res.ok) {
+      document.getElementById('progress-bar').style.width = '100%';
+      try { localStorage.removeItem('wellsco_obs_draft'); } catch(e) {}
+      document.querySelector('.submit-section').innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0;">
+          <div style="width:56px;height:56px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <svg width="26" height="26" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3 style="color:var(--success);">Survey Submitted</h3>
+          <p>Thank you — your response has been received. We may be in touch if you opted in to a follow-up.</p>
+        </div>`;
+    } else {
+      throw new Error('Submission failed');
+    }
+  } catch(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Submit Survey';
+    showToast('⚠ Could not submit — please try again.');
+  }
+}
+
+function toggleContactFields(method) {
+  // Visual emphasis — could highlight the relevant field
+  const emailField = document.getElementById('resp-email');
+  const cellField  = document.getElementById('resp-cell');
+  if (!emailField || !cellField) return;
+  if (method === 'Email') {
+    emailField.style.borderColor = 'var(--sage-mid)';
+    cellField.style.borderColor  = 'var(--line)';
+    emailField.focus();
+  } else if (method === 'Cell') {
+    cellField.style.borderColor  = 'var(--sage-mid)';
+    emailField.style.borderColor = 'var(--line)';
+    cellField.focus();
+  } else {
+    emailField.style.borderColor = 'var(--sage-mid)';
+    cellField.style.borderColor  = 'var(--sage-mid)';
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+window.addEventListener('load', restoreDraft);
+document.getElementById('resp-date').valueAsDate = new Date();
+updateProgress();
+
+</script>
+</body>
+</html>
